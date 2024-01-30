@@ -579,8 +579,8 @@ class _ShowcaseState extends State<Showcase> {
             titleTextDirection: widget.titleTextDirection,
             descriptionTextDirection: widget.descriptionTextDirection,
           ),
-        ],
-      ]..addAll(widget.overlayChildren),
+        ], ...showCaseWidgetState.overlayChildren, ...widget.overlayChildren,
+      ],
     );
   }
 }

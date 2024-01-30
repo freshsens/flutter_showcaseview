@@ -28,6 +28,16 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
+      overlayChildren: [
+        Align(
+          alignment: Alignment.bottomRight,
+          child: ElevatedButton(
+              onPressed: () {
+                ShowCaseWidget.of(context).dismiss();
+              },
+              child: const Text("Skip")),
+        )
+      ],
       builder: Builder(
         builder: (context) {
           myContext = context;
@@ -53,15 +63,8 @@ class _DetailState extends State<Detail> {
                     key: _one,
                     title: 'Title',
                     description: 'Desc',
-                    overlayChildren: [
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              ShowCaseWidget.of(context).dismiss();
-                            },
-                            child: Text("Skip")),
-                      )
+                    overlayChildren: const [
+                      Positioned(top: 50, left: 0, right: 0, bottom: 0, child: Text("Overlay Demo"))
                     ],
                     child: InkWell(
                       onTap: () {},
