@@ -53,6 +53,16 @@ class _DetailState extends State<Detail> {
                     key: _one,
                     title: 'Title',
                     description: 'Desc',
+                    overlayChildren: [
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              ShowCaseWidget.of(context).dismiss();
+                            },
+                            child: Text("Skip")),
+                      )
+                    ],
                     child: InkWell(
                       onTap: () {},
                       child: const Text(

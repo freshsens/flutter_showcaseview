@@ -243,6 +243,11 @@ class Showcase extends StatefulWidget {
   /// Note-: Even if barrier interactions are disabled, this handler
   /// will still provide a callback.
   final VoidCallback? onBarrierClick;
+  
+  /// Add widgets to render alongside the overlay in all steps.
+  /// 
+  /// Especially useful for creating buttons inside the overlay such as skip
+  final List<Widget> overlayChildren;
 
   const Showcase({
     required this.key,
@@ -287,7 +292,7 @@ class Showcase extends StatefulWidget {
     this.descriptionPadding,
     this.titleTextDirection,
     this.descriptionTextDirection,
-    this.onBarrierClick,
+    this.onBarrierClick, this.overlayChildren = const [],
   })  : height = null,
         width = null,
         container = null,
@@ -324,7 +329,7 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.disableDefaultTargetGestures = false,
     this.tooltipPosition,
-    this.onBarrierClick,
+    this.onBarrierClick, this.overlayChildren = const [],
   })  : showArrow = false,
         onToolTipClick = null,
         scaleAnimationDuration = const Duration(milliseconds: 300),
@@ -575,7 +580,7 @@ class _ShowcaseState extends State<Showcase> {
             descriptionTextDirection: widget.descriptionTextDirection,
           ),
         ],
-      ],
+      ]..addAll(widget.overlayChildren),
     );
   }
 }
