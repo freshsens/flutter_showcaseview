@@ -86,7 +86,7 @@ class ShowCaseWidget extends StatefulWidget {
   /// Add widgets to render alongside the overlay in all steps.
   ///
   /// Especially useful for creating buttons inside the overlay such as skip
-  final List<Widget>? overlayChildren;
+  final List<Widget>? Function(ShowCaseWidgetState)? overlayChildren;
 
   const ShowCaseWidget({
     required this.builder,
@@ -150,7 +150,7 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   /// Returns value of [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;
 
-  List<Widget> get overlayChildren => widget.overlayChildren ?? const [];
+  List<Widget> get overlayChildren => widget.overlayChildren?.call(this) ?? const [];
 
   /// Starts Showcase view from the beginning of specified list of widget ids.
   /// If this function is used when showcase has been disabled then it will

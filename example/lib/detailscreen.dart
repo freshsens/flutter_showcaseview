@@ -28,12 +28,12 @@ class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return ShowCaseWidget(
-      overlayChildren: [
+      overlayChildren: (ShowCaseWidgetState showcase) => [
         Align(
           alignment: Alignment.bottomRight,
           child: ElevatedButton(
               onPressed: () {
-                ShowCaseWidget.of(context).dismiss();
+                showcase.dismiss();
               },
               child: const Text("Skip")),
         )
