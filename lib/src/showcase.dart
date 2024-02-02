@@ -41,7 +41,13 @@ class Showcase extends StatefulWidget {
   /// used in [ShowCaseWidgetState.startShowCase] to define position of current
   /// target widget while showcasing.
   @override
-  final GlobalKey key;
+  final GlobalKey? key;
+
+  /// Disable the barrier interaction regardless of ShowCaseWidget configuration
+  final bool? disableBarrierInteraction;
+
+  /// Disable ShowCaseWidget overlayChildren for this showcase
+  final bool disableShowCaseWidgetOverlayChildren;
 
   /// Target widget that will be showcased or highlighted
   final Widget child;
@@ -253,6 +259,7 @@ class Showcase extends StatefulWidget {
     required this.key,
     required this.description,
     required this.child,
+    this.disableBarrierInteraction,
     this.title,
     this.titleAlignment = TextAlign.start,
     this.descriptionAlignment = TextAlign.start,
@@ -292,7 +299,7 @@ class Showcase extends StatefulWidget {
     this.descriptionPadding,
     this.titleTextDirection,
     this.descriptionTextDirection,
-    this.onBarrierClick, this.overlayChildren = const [],
+    this.onBarrierClick, this.overlayChildren = const [], this.disableShowCaseWidgetOverlayChildren = false,
   })  : height = null,
         width = null,
         container = null,
@@ -309,6 +316,7 @@ class Showcase extends StatefulWidget {
     required this.width,
     required this.container,
     required this.child,
+  this.disableShowCaseWidgetOverlayChildren = false,
     this.targetShapeBorder = const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(8),
@@ -329,7 +337,7 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.disableDefaultTargetGestures = false,
     this.tooltipPosition,
-    this.onBarrierClick, this.overlayChildren = const [],
+    this.onBarrierClick, this.overlayChildren = const [], this.disableBarrierInteraction,
   })  : showArrow = false,
         onToolTipClick = null,
         scaleAnimationDuration = const Duration(milliseconds: 300),
@@ -407,7 +415,7 @@ class _ShowcaseState extends State<Showcase> {
     ambiguate(WidgetsBinding.instance)?.addPostFrameCallback((timeStamp) async {
       setState(() => _isScrollRunning = true);
       await Scrollable.ensureVisible(
-        widget.key.currentContext!,
+        widget.key!.currentContext!,
         duration: showCaseWidgetState.widget.scrollDuration,
         alignment: 0.5,
       );
@@ -417,7 +425,7 @@ class _ShowcaseState extends State<Showcase> {
 
   @override
   Widget build(BuildContext context) {
-    if (_enableShowcase) {
+    if (_enableShowcase && widget.key != null) {
       return AnchoredOverlay(
         overlayBuilder: (context, rectBound, offset) {
           final size = MediaQuery.of(context).size;
@@ -496,7 +504,7 @@ class _ShowcaseState extends State<Showcase> {
       children: [
         GestureDetector(
           onTap: () {
-            if (!showCaseWidgetState.disableBarrierInteraction) {
+            if ((widget.disableBarrierInteraction ?? showCaseWidgetState.disableBarrierInteraction) == false) {
               _nextIfAny();
             }
             widget.onBarrierClick?.call();
@@ -579,7 +587,7 @@ class _ShowcaseState extends State<Showcase> {
             titleTextDirection: widget.titleTextDirection,
             descriptionTextDirection: widget.descriptionTextDirection,
           ),
-        ], ...showCaseWidgetState.overlayChildren, ...widget.overlayChildren,
+        ], if(!widget.disableShowCaseWidgetOverlayChildren) ...showCaseWidgetState.overlayChildren, ...widget.overlayChildren,
       ],
     );
   }
