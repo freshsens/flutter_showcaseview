@@ -255,6 +255,9 @@ class Showcase extends StatefulWidget {
   /// Especially useful for creating buttons inside the overlay such as skip
   final List<Widget> overlayChildren;
 
+  ///
+  final bool? nextOnTooltipClick;
+
   const Showcase({
     required this.key,
     required this.description,
@@ -299,7 +302,10 @@ class Showcase extends StatefulWidget {
     this.descriptionPadding,
     this.titleTextDirection,
     this.descriptionTextDirection,
-    this.onBarrierClick, this.overlayChildren = const [], this.disableShowCaseWidgetOverlayChildren = false,
+    this.nextOnTooltipClick,
+    this.onBarrierClick, 
+    this.overlayChildren = const [], 
+    this.disableShowCaseWidgetOverlayChildren = false,
   })  : height = null,
         width = null,
         container = null,
@@ -463,7 +469,7 @@ class _ShowcaseState extends State<Showcase> {
       showCaseWidgetState.dismiss();
       widget.onTargetClick!();
     } else {
-      (widget.onTargetClick ?? showcase.onTargetClick ?? _nextIfAny).call();
+      (widget.onTargetClick ?? showCaseWidgetState.onTargetClick ?? _nextIfAny).call();
     }
   }
 
@@ -471,7 +477,7 @@ class _ShowcaseState extends State<Showcase> {
     if (widget.disposeOnTap == true) {
       await _reverseAnimateTooltip();
       showCaseWidgetState.dismiss();
-    } else if (widget.nextOnTooltipClick) {
+    } else if (widget.nextOnTooltipClick ?? ShowCaseWidget.nextOnTooltipClick) {
       _nextIfAny();
     }
     widget.onToolTipClick?.call();
@@ -509,7 +515,7 @@ class _ShowcaseState extends State<Showcase> {
             if ((widget.disableBarrierInteraction ?? showCaseWidgetState.disableBarrierInteraction) == false) {
               _nextIfAny();
             }
-            (widget.onBarrierClick ?? showcase.onBarrierClick)?.call();
+            (widget.onBarrierClick ?? ShowCaseWidgetState.onBarrierClick)?.call();
           },
           child: ClipPath(
             clipper: RRectClipper(
