@@ -99,7 +99,7 @@ class ShowCaseWidget extends StatefulWidget {
   final VoidCallback? onToolTipClick;
 
   /// Go forward when tooltip is clicked
-  final bool nextOnTooltipClick = true;
+  final bool nextOnTooltipClick;
 
   /// Add widgets to render alongside the overlay in all steps.
   ///
@@ -127,7 +127,7 @@ class ShowCaseWidget extends StatefulWidget {
     this.onTargetDoubleTap,
     this.onTargetLongPress,
     this.onToolTipClick,
-    this.nextOnTooltipClick
+    this.nextOnTooltipClick = true
   });
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
