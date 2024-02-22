@@ -171,6 +171,18 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
 
   bool get enableShowcase => widget.enableShowcase;
 
+  VoidCallback? get onTargetClick => widget.onTargetClick;
+
+  VoidCallback? get onBarrierClick => widget.onBarrierClick;
+
+  VoidCallback? get onTargetDoubleTap => widget.onTargetDoubleTap;
+
+  VoidCallback? get onTargetLongPress => widget.onTargetLongPress;
+
+  VoidCallback? get onToolTipClick => widget.onToolTipClick;
+
+  bool get nextOnTooltipClick => widget.nextOnTooltipClick;
+
   /// Returns value of [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;
 

@@ -255,7 +255,7 @@ class Showcase extends StatefulWidget {
   /// Especially useful for creating buttons inside the overlay such as skip
   final List<Widget> overlayChildren;
 
-  ///
+  /// Move to the next showcase when tooltip is clicked
   final bool? nextOnTooltipClick;
 
   const Showcase({
@@ -343,9 +343,12 @@ class Showcase extends StatefulWidget {
     this.onTargetDoubleTap,
     this.disableDefaultTargetGestures = false,
     this.tooltipPosition,
-    this.onBarrierClick, this.overlayChildren = const [], this.disableBarrierInteraction,
+    this.onBarrierClick,
+    this.onToolTipClick,
+    this.nextOnTooltipClick,
+    this.overlayChildren = const [],
+    this.disableBarrierInteraction,
   })  : showArrow = false,
-        onToolTipClick = null,
         scaleAnimationDuration = const Duration(milliseconds: 300),
         scaleAnimationCurve = Curves.decelerate,
         scaleAnimationAlignment = null,
@@ -477,7 +480,7 @@ class _ShowcaseState extends State<Showcase> {
     if (widget.disposeOnTap == true) {
       await _reverseAnimateTooltip();
       showCaseWidgetState.dismiss();
-    } else if (widget.nextOnTooltipClick ?? ShowCaseWidget.nextOnTooltipClick) {
+    } else if ((widget.nextOnTooltipClick ?? showCaseWidgetState.nextOnTooltipClick) == true) {
       _nextIfAny();
     }
     widget.onToolTipClick?.call();
@@ -515,7 +518,7 @@ class _ShowcaseState extends State<Showcase> {
             if ((widget.disableBarrierInteraction ?? showCaseWidgetState.disableBarrierInteraction) == false) {
               _nextIfAny();
             }
-            (widget.onBarrierClick ?? ShowCaseWidgetState.onBarrierClick)?.call();
+            (widget.onBarrierClick ?? showCaseWidgetState.onBarrierClick)?.call();
           },
           child: ClipPath(
             clipper: RRectClipper(
@@ -556,9 +559,9 @@ class _ShowcaseState extends State<Showcase> {
             size: size,
             onTap: _getOnTargetTap,
             radius: widget.targetBorderRadius,
-            onDoubleTap: widget.onTargetDoubleTap ?? showcase.onTargetDoubleTap,
-            onLongPress: widget.onTargetLongPress ?? showcase.onTargetLongPress,
-            shapeBorder: widget.targetShapeBorder ?? showcase.targetShapeBorder,
+            onDoubleTap: widget.onTargetDoubleTap ?? showCaseWidgetState.onTargetDoubleTap,
+            onLongPress: widget.onTargetLongPress ?? showCaseWidgetState.onTargetLongPress,
+            shapeBorder: widget.targetShapeBorder,
             disableDefaultChildGestures: widget.disableDefaultTargetGestures,
           ),
           ToolTipWidget(
