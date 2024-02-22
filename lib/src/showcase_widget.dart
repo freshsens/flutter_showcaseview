@@ -83,6 +83,24 @@ class ShowCaseWidget extends StatefulWidget {
   /// Enable/disable showcase globally. Enabled by default.
   final bool enableShowcase;
 
+  /// Function to run when showcased widget is tapped
+  final VoidCallback? onTargetClick;
+
+  /// Function to run when barrier is clicked 
+  final VoidCallback? onBarrierClick;
+  
+  /// Function to run when target is double tapped 
+  final VoidCallback? onTargetDoubleTap;
+
+  /// Function to run when target is long pressed 
+  final VoidCallback? onTargetLongPress;
+
+  /// Function to run when tooltip is clicked 
+  final VoidCallback? onToolTipClick;
+
+  /// Go forward when tooltip is clicked
+  final bool nextOnTooltipClick = true;
+
   /// Add widgets to render alongside the overlay in all steps.
   ///
   /// Especially useful for creating buttons inside the overlay such as skip
@@ -104,6 +122,12 @@ class ShowCaseWidget extends StatefulWidget {
     this.disableBarrierInteraction = false,
     this.enableShowcase = true,
     this.overlayChildren,
+    this.onTargetClick,
+    this.onBarrierClick,
+    this.onTargetDoubleTap,
+    this.onTargetLongPress,
+    this.onToolTipClick,
+    this.nextOnTooltipClick
   });
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
