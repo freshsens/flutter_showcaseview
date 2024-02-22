@@ -463,7 +463,7 @@ class _ShowcaseState extends State<Showcase> {
       showCaseWidgetState.dismiss();
       widget.onTargetClick!();
     } else {
-      (widget.onTargetClick ?? _nextIfAny).call();
+      (widget.onTargetClick ?? showcase.onTargetClick ?? _nextIfAny).call();
     }
   }
 
@@ -471,6 +471,8 @@ class _ShowcaseState extends State<Showcase> {
     if (widget.disposeOnTap == true) {
       await _reverseAnimateTooltip();
       showCaseWidgetState.dismiss();
+    } else if (widget.nextOnTooltipClick) {
+      _nextIfAny();
     }
     widget.onToolTipClick?.call();
   }
@@ -507,7 +509,7 @@ class _ShowcaseState extends State<Showcase> {
             if ((widget.disableBarrierInteraction ?? showCaseWidgetState.disableBarrierInteraction) == false) {
               _nextIfAny();
             }
-            widget.onBarrierClick?.call();
+            (widget.onBarrierClick ?? showcase.onBarrierClick)?.call();
           },
           child: ClipPath(
             clipper: RRectClipper(
@@ -548,9 +550,9 @@ class _ShowcaseState extends State<Showcase> {
             size: size,
             onTap: _getOnTargetTap,
             radius: widget.targetBorderRadius,
-            onDoubleTap: widget.onTargetDoubleTap,
-            onLongPress: widget.onTargetLongPress,
-            shapeBorder: widget.targetShapeBorder,
+            onDoubleTap: widget.onTargetDoubleTap ?? showcase.onTargetDoubleTap,
+            onLongPress: widget.onTargetLongPress ?? showcase.onTargetLongPress,
+            shapeBorder: widget.targetShapeBorder ?? showcase.targetShapeBorder,
             disableDefaultChildGestures: widget.disableDefaultTargetGestures,
           ),
           ToolTipWidget(
