@@ -542,7 +542,7 @@ class _ShowcaseState extends State<Showcase> {
                       height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         color: widget.overlayColor
-                            .withOpacity(widget.overlayOpacity),
+                            .withOpacity(showCaseWidgetState.overlayOpacity ?? widget.overlayOpacity),
                       ),
                     ),
                   )
@@ -551,7 +551,7 @@ class _ShowcaseState extends State<Showcase> {
                     height: MediaQuery.of(context).size.height,
                     decoration: BoxDecoration(
                       color: widget.overlayColor
-                          .withOpacity(widget.overlayOpacity),
+                          .withOpacity(showCaseWidgetState.overlayOpacity ?? widget.overlayOpacity),
                     ),
                   ),
           ),

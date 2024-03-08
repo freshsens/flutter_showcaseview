@@ -109,6 +109,8 @@ class ShowCaseWidget extends StatefulWidget {
   /// Especially useful for creating buttons inside the overlay such as skip
   final List<Widget>? Function(ShowCaseWidgetState)? overlayChildren;
 
+  final double? overlayOpacity;
+
   const ShowCaseWidget({
     required this.builder,
     this.onFinish,
@@ -130,8 +132,9 @@ class ShowCaseWidget extends StatefulWidget {
     this.onTargetDoubleTap,
     this.onTargetLongPress,
     this.onToolTipClick,
-    this.nextOnTooltipClick = true, this.nextOnTargetClick = false
-  });
+    this.nextOnTooltipClick = true, this.nextOnTargetClick = false, this.overlayOpacity
+  }) : assert(overlayOpacity == null ||overlayOpacity >= 0.0 && overlayOpacity <= 1.0,
+  "overlay opacity must be between 0 and 1.");
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
     return context
@@ -187,6 +190,8 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   bool get nextOnTooltipClick => widget.nextOnTooltipClick;
 
   bool get nextOnTargetClick => widget.nextOnTargetClick;
+
+  double? get overlayOpacity => widget.overlayOpacity;
 
   /// Returns value of [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;

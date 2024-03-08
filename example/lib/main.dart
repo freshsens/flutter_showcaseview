@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: ShowCaseWidget(
+          overlayOpacity: 0.6,
           onStart: (index, key) {
             log('onStart: $index, $key');
           },
