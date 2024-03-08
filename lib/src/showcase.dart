@@ -258,6 +258,9 @@ class Showcase extends StatefulWidget {
   /// Move to the next showcase when tooltip is clicked
   final bool? nextOnTooltipClick;
 
+  /// Move to the next showcase when target is clicked
+  final bool? nextOnTargetClick;
+
   const Showcase({
     required this.key,
     required this.description,
@@ -305,7 +308,7 @@ class Showcase extends StatefulWidget {
     this.nextOnTooltipClick,
     this.onBarrierClick, 
     this.overlayChildren = const [], 
-    this.disableShowCaseWidgetOverlayChildren = false,
+    this.disableShowCaseWidgetOverlayChildren = false, this.nextOnTargetClick,
   })  : height = null,
         width = null,
         container = null,
@@ -347,7 +350,7 @@ class Showcase extends StatefulWidget {
     this.onToolTipClick,
     this.nextOnTooltipClick,
     this.overlayChildren = const [],
-    this.disableBarrierInteraction,
+    this.disableBarrierInteraction, this.nextOnTargetClick,
   })  : showArrow = false,
         scaleAnimationDuration = const Duration(milliseconds: 300),
         scaleAnimationCurve = Curves.decelerate,
@@ -472,7 +475,8 @@ class _ShowcaseState extends State<Showcase> {
       showCaseWidgetState.dismiss();
       widget.onTargetClick!();
     } else {
-      (widget.onTargetClick ?? showCaseWidgetState.onTargetClick ?? _nextIfAny).call();
+      (widget.onTargetClick ?? showCaseWidgetState.onTargetClick)?.call();
+      if(widget.nextOnTargetClick ?? showCaseWidgetState.nextOnTargetClick) _nextIfAny();
     }
   }
 
@@ -480,10 +484,10 @@ class _ShowcaseState extends State<Showcase> {
     if (widget.disposeOnTap == true) {
       await _reverseAnimateTooltip();
       showCaseWidgetState.dismiss();
-    } else if ((widget.nextOnTooltipClick ?? showCaseWidgetState.nextOnTooltipClick) == true) {
-      _nextIfAny();
+    } else {
+      (widget.onToolTipClick ?? showCaseWidgetState.onToolTipClick)?.call();
+      if ((widget.nextOnTooltipClick ?? showCaseWidgetState.nextOnTooltipClick)) _nextIfAny();
     }
-    widget.onToolTipClick?.call();
   }
 
   /// Reverse animates the provided tooltip or

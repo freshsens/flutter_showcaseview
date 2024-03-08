@@ -101,6 +101,9 @@ class ShowCaseWidget extends StatefulWidget {
   /// Go forward when tooltip is clicked
   final bool nextOnTooltipClick;
 
+  /// Go forward when target is clicked
+  final bool nextOnTargetClick;
+
   /// Add widgets to render alongside the overlay in all steps.
   ///
   /// Especially useful for creating buttons inside the overlay such as skip
@@ -127,7 +130,7 @@ class ShowCaseWidget extends StatefulWidget {
     this.onTargetDoubleTap,
     this.onTargetLongPress,
     this.onToolTipClick,
-    this.nextOnTooltipClick = true
+    this.nextOnTooltipClick = true, this.nextOnTargetClick = false
   });
 
   static GlobalKey? activeTargetWidget(BuildContext context) {
@@ -182,6 +185,8 @@ class ShowCaseWidgetState extends State<ShowCaseWidget> {
   VoidCallback? get onToolTipClick => widget.onToolTipClick;
 
   bool get nextOnTooltipClick => widget.nextOnTooltipClick;
+
+  bool get nextOnTargetClick => widget.nextOnTargetClick;
 
   /// Returns value of [ShowCaseWidget.blurValue]
   double get blurValue => widget.blurValue;
